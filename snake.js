@@ -1,6 +1,7 @@
 function Snake() {
     this.x = 0;
     this.y = 0;
+    this.maxSpeed = 250;
     this.xSpeed = scale * 1;
     this.ySpeed = 0;
     this.total = 0;
@@ -35,12 +36,12 @@ function Snake() {
             this.x = canvas.width;
         }
 
-        if(this.y > canvas.height) {
+        if(this.y >= canvas.height) {
             this.y = 0;
         }
 
         if(this.y < 0) {
-            this.y = canvas.height;
+            this.y = canvas.height -10;
         }
     }
 
@@ -78,6 +79,7 @@ function Snake() {
     this.eat = function(){
         if (this.x === fruit.x && this.y === fruit.y){
             this.total++;
+            this.maxSpeed *= .895;
             return true;
         }
 
@@ -88,7 +90,11 @@ function Snake() {
         for(var i=0; i<this.tail.length; i++){
             if(this.x === this.tail[i].x && this.y === this.tail[i].y){
                 this.total = 0;
+                this.maxSpeed = 250;
                 this.tail = [];
+                ui.state.playing = 0;
+                startBtn.disabled = false;
+
             }
         }
     }

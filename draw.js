@@ -7,12 +7,35 @@ const columns = canvas.width / scale;
 
 var snake;
 
+
 (function setup(){
     snake = new Snake();
     fruit = new Fruit();
     fruit.pickLocation();
 
-    window.setInterval(() => {
+    var counter = 10;
+    var myFunction = function() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        fruit.draw();
+        if(ui.state.playing == 1){
+            snake.update();
+        }
+        snake.draw();
+
+        if (snake.eat(fruit)){
+            fruit.pickLocation();
+        }
+
+        snake.checkCollision();
+        document.querySelector('.score')
+            .innerText = snake.total;
+        
+        counter = snake.maxSpeed;
+        setTimeout(myFunction, counter);
+    }
+    setTimeout(myFunction, counter);
+
+    /* window.setInterval(() => {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         fruit.draw();
         snake.update();
@@ -27,7 +50,7 @@ var snake;
             .innerText = snake.total;
 
 
-    }, 250);
+    }, 250); */
 }());
 
 window.addEventListener('keydown', ((evt) => {
